@@ -5,8 +5,8 @@ export interface Commander {
 }
 
 class UnknownCommand implements Commander {
-    readonly name: string = "unknown-command"
-    readonly description: string = "unknown command"
+    readonly name: string = 'unknown-command'
+    readonly description: string = 'unknown command'
     execute(args: string[]) {
         throw new Error(`unknown command {this.name}`)
     }

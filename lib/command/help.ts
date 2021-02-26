@@ -1,7 +1,7 @@
-import {Commander} from "../cli/mod.ts"
+import {Commander} from '../cli/mod.ts'
 
 export default class HelpCommand implements Commander {
-    readonly name: string = "help"
+    readonly name: string = 'help'
     readonly description: string = `
 Usage: picacli <action> <arguments>
 `
