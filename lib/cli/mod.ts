@@ -15,19 +15,19 @@ class UnknownCommand implements Commander {
 // se pueden usar las interfaces
 // para crear tipos para data
 interface CommandLineOptions {
-    readonly default_command: Commander
+    readonly defaultCommand: Commander
 }
 
 class DefaultCommandLineOptions {
-    readonly default_command: Commander = new UnknownCommand()
+    readonly defaultCommand: Commander = new UnknownCommand()
 }
 
 export class CommandLine {
     private command: Map<string, Commander>
-    private readonly default_command: Commander
+    private readonly defaultCommand: Commander
     
     constructor(options: CommandLineOptions = new DefaultCommandLineOptions()) {
-        this.default_command = options.default_command
+        this.defaultCommand = options.defaultCommand
         this.command = new Map()
     }
 
@@ -36,10 +36,10 @@ export class CommandLine {
     }
 
     run(args: string[]) {
-        let name_command = args.shift() || this.default_command.name
-        let command_args = args
-        let current_command = this.command.get(name_command) || this.default_command
+        const nameCommand = args.shift() || this.defaultCommand.name
+        const commandArgs = args
+        const currentCommand = this.command.get(nameCommand) || this.defaultCommand
 
-        current_command.execute(command_args)
+        currentCommand.execute(commandArgs)
     }
 }

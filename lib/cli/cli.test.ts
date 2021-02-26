@@ -17,34 +17,34 @@ class FakeCommand implements Commander {
     }
 
     execute(args: string[]) {
-        for(let argument of args) {
+        for(const argument of args) {
             this.outputs.push(argument)
         }
     }
 }
 
-Deno.test('handle unknown command', async () => {
-    let cli = new CommandLine()
+Deno.test('handle unknown command', () => {
+    const cli = new CommandLine()
 
     assertThrows(() => {
         cli.run(["rare-command", "rare argument"])
     })
 })
 
-Deno.test('add command', async () => {
-    let cli = new CommandLine()
-    let output: string[] = []
-    let fakeCommand = new FakeCommand(output)
+Deno.test('add command', () => {
+    const cli = new CommandLine()
+    const output: string[] = []
+    const fakeCommand = new FakeCommand(output)
 
     cli.addCommand(fakeCommand)
     cli.run(["fake-command", "saluton"])
     assertEquals(output[0], "saluton")
 })
 
-Deno.test('set default command', async() => {
-    let output: string[] = []
-    let fakeCommand = new FakeCommand(output)
-    let cli = new CommandLine({default_command: fakeCommand})
+Deno.test('set default command', () => {
+    const output: string[] = []
+    const fakeCommand = new FakeCommand(output)
+    const cli = new CommandLine({default_command: fakeCommand})
 
     cli.run(["default", "vi estas"])
     assertEquals(output[0], "vi estas")
