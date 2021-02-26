@@ -1,3 +1,7 @@
+## Estilo
+
+https://deno.land/manual@v1.7.5/contributing/style_guide
+
 ## GIT COMMIT
 
 la bitacora de git es una guia para el historico del proyecto, por eso
