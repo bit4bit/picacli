@@ -40,3 +40,12 @@ Deno.test('add command', async () => {
     cli.run(["fake-command", "saluton"])
     assertEquals(output[0], "saluton")
 })
+
+Deno.test('set default command', async() => {
+    let output: string[] = []
+    let fakeCommand = new FakeCommand(output)
+    let cli = new CommandLine({default_command: fakeCommand})
+
+    cli.run(["default", "vi estas"])
+    assertEquals(output[0], "vi estas")
+})

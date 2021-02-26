@@ -12,12 +12,22 @@ class UnknownCommand implements Commander {
     }
 }
 
+// se pueden usar las interfaces
+// para crear tipos para data
+interface CommandLineOptions {
+    readonly default_command: Commander
+}
+
+class DefaultCommandLineOptions {
+    readonly default_command: Commander = new UnknownCommand()
+}
+
 export class CommandLine {
     private command: Map<string, Commander>
     private readonly default_command: Commander
     
-    constructor() {
-        this.default_command = new UnknownCommand()
+    constructor(options: CommandLineOptions = new DefaultCommandLineOptions()) {
+        this.default_command = options.default_command
         this.command = new Map()
     }
 
