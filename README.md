@@ -17,3 +17,4 @@ Este busca cumplir las tareas siguientes:
 ## inspiraciones
 
  - https://cli.github.com/
+ - https://fossil-scm.org
