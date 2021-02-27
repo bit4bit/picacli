@@ -5,10 +5,10 @@ import {
 } from 'https://deno.land/std@0.88.0/testing/asserts.ts'
 
 import {Picacli} from './mod.ts'
-import {Storer} from './store/mod.ts'
+import {Stater} from './state/mod.ts'
 import {Hash256} from './hash/sha256.ts'
 
-class FakeStore implements Storer {
+class FakeState implements Stater {
     private data: Map<string, string> = new Map()
     private project: string = ''
 
@@ -37,10 +37,10 @@ class FakeStore implements Storer {
 
 Deno.test('open directory as project', () => {
     const tmpDir = Deno.makeTempDirSync()
-    const fakeStore = new FakeStore()
+    const fakeState = new FakeState()
     const hasher = new Hash256()
     
-    const pica = new Picacli(fakeStore, hasher)
+    const pica = new Picacli(fakeState, hasher)
     pica.open(tmpDir)
-    assertEquals(fakeStore.get('path'), tmpDir)
+    assertEquals(fakeState.get('path'), tmpDir)
 })
