@@ -12,13 +12,6 @@ class FakeState implements Stater {
     private data: Map<string, string> = new Map()
     private project: string = ''
 
-    open(project: string) {
-        this.project = project
-    }
-    
-    close() {
-    }
-    
     set(key: string, val: string) {
         this.data.set(this.flat_key(key), val)
     }
@@ -40,7 +33,8 @@ Deno.test('open directory as project', () => {
     const fakeState = new FakeState()
     const hasher = new Hash256()
     
-    const pica = new Picacli(fakeState, hasher)
-    pica.open(tmpDir)
-    assertEquals(fakeState.get('path'), tmpDir)
+    const pica = new Picacli(fakeState)
+    const summary = 'summary'
+    pica.open(summary)
+    assertEquals(fakeState.get('summary'), summary)
 })
