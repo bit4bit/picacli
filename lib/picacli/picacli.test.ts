@@ -20,7 +20,7 @@ class FakeState implements Stater {
         return this.data.get(this.flat_key(key))
     }
 
-    commit(): void {
+    async commit(): Promise<void> {
     }
 
     private flat_key(key: string) {
@@ -28,13 +28,33 @@ class FakeState implements Stater {
     }
 }
 
-Deno.test('open directory as project', () => {
-    const tmpDir = Deno.makeTempDirSync()
+Deno.test('open a project', async () => {
     const fakeState = new FakeState()
-    const hasher = new Hash256()
     
     const pica = new Picacli(fakeState)
     const summary = 'summary'
-    pica.open(summary)
+    await pica.open(summary)
     assertEquals(fakeState.get('summary'), summary)
+})
+
+Deno.test('run actions on project open', async () => {
+    const fakeState = new FakeState()
+    
+    const pica = new Picacli(fakeState)
+    const summary = 'summary'
+
+    let actionOutput: string[] = []
+    pica.addAction({
+        execute: async function(state: Stater): Promise<void> {
+            actionOutput.push('action 1')
+        }
+    }, 'open')
+    pica.addAction({
+        execute: async function(state: Stater): Promise<void> {
+            actionOutput.push('action 2')
+        }
+    }, 'open')
+
+    await pica.open(summary)
+    assertEquals(actionOutput, ['action 1', 'action 2'])
 })
