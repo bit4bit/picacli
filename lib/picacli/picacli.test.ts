@@ -4,9 +4,9 @@ import {
     assertThrows
 } from 'https://deno.land/std@0.88.0/testing/asserts.ts'
 
-import {Picacli} from './mod.ts'
-import {Stater} from './state/mod.ts'
-import {Hash256} from './hash/sha256.ts'
+import { Picacli, PicacliAction } from './mod.ts'
+import { Stater } from './state/mod.ts'
+import { Hash256 } from './hash/sha256.ts'
 
 class FakeState implements Stater {
     private data: Map<string, string> = new Map()
@@ -45,15 +45,21 @@ Deno.test('run actions on project open', async () => {
 
     let actionOutput: string[] = []
     pica.addAction({
+        when: function(): PicacliAction {
+            return PicacliAction.Open
+        },
         execute: async function(state: Stater): Promise<void> {
             actionOutput.push('action 1')
         }
-    }, 'open')
+    })
     pica.addAction({
+        when: function(): PicacliAction {
+            return PicacliAction.Open
+        },
         execute: async function(state: Stater): Promise<void> {
             actionOutput.push('action 2')
         }
-    }, 'open')
+    })
 
     await pica.open(summary)
     assertEquals(actionOutput, ['action 1', 'action 2'])
