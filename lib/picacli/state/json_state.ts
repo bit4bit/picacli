@@ -9,10 +9,13 @@ export class JsonState {
         this.path = path
 
         try {
-            const data = Deno.readTextFileSync(this.path)
+            const data = Deno.readTextFileSync(this.path).trim()
+            
             this.state = JSON.parse(data)
         } catch (e) {
-            if (!(e instanceof Deno.errors.NotFound)) {
+            if (e instanceof Deno.errors.NotFound) {
+                Deno.writeTextFileSync(this.path, '{}')
+            } else {
                 throw e
             }
         }
@@ -29,5 +32,8 @@ export class JsonState {
     async commit() {
         const data = JSON.stringify(this.state)
         await Deno.writeTextFile(this.path, data)
+    }
+
+    async rollback() {
     }
 }

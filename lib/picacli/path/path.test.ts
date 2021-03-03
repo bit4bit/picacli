@@ -36,5 +36,5 @@ testDir(async function stopWhenFoundFileExpected() {
 
     const projectPath: ProjectPathResolver = new ProjectDirectoryResolve()
     const expectDirectory = path.resolve('./../../../')
-    assertEquals(projectPath.rootDirectory('.picacli'), expectDirectory)
+    assertEquals(projectPath.rootDirectory(['.picacli']), expectDirectory)
 })
