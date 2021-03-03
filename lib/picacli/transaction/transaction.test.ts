@@ -32,7 +32,7 @@ class FakeState implements Stater {
 
 Deno.test('test rollback on fail transaction', async () => {
     const fakeState = new FakeState()
-    const transaction = new Transaction(fakeState)
+    const transaction = new Transaction(fakeState, fakeState)
 
     const outputs: string[] = []
     

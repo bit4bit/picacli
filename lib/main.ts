@@ -12,7 +12,8 @@ const PICACLI_CONFIGURATION = '.picacli.json'
 const projectPath = new ProjectDirectoryResolve()
 const projectRoot = projectPath.rootDirectory(PICACLI_CONFIGURATION)
 const state = new JsonState(path.join(projectRoot, '.picacli.state'))
-const picacli = new Picacli(state)
+const configurationState = new JsonState(path.join(projectRoot, PICACLI_CONFIGURATION))
+const picacli = new Picacli(state, configurationState)
 
 picacli.addAction(new JiraOpenAction())
 

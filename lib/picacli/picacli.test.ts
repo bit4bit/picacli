@@ -37,7 +37,7 @@ class FakeState implements Stater {
 Deno.test('open a project', async () => {
     const fakeState = new FakeState()
     
-    const pica = new Picacli(fakeState)
+    const pica = new Picacli(fakeState, fakeState)
     const summary = 'summary'
     await pica.open(summary)
     assertEquals(fakeState.get('summary'), summary)
@@ -46,7 +46,7 @@ Deno.test('open a project', async () => {
 Deno.test('run actions on project open', async () => {
     const fakeState = new FakeState()
     
-    const pica = new Picacli(fakeState)
+    const pica = new Picacli(fakeState, fakeState)
     const summary = 'summary'
 
     let actionOutput: string[] = []
@@ -103,7 +103,7 @@ Deno.test('run actions on project open', async () => {
 
 Deno.test('run actions in order of dependency', async () => {
     const fakeState = new FakeState()
-    const pica = new Picacli(fakeState)
+    const pica = new Picacli(fakeState, fakeState)
 
     let actionOutput: string[] = []
     pica.addAction({

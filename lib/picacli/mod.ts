@@ -11,13 +11,15 @@ export enum PicacliAction {
 
 export class Picacli {
     private state: Stater
+    private configurationState: Stater
     private action: Map<string, Actioner[]>
     private transaction: Transaction
 
-    constructor(state: Stater) {
+    constructor(state: Stater, configurationState: Stater) {
         this.state = state
+        this.configurationState = configurationState
         this.action = new Map()
-        this.transaction = new Transaction(this.state)
+        this.transaction = new Transaction(this.state, this.configurationState)
     }
 
     addAction(action: Actioner) {
