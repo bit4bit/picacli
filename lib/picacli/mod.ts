@@ -2,6 +2,7 @@ import * as path from "https://deno.land/std@0.88.0/path/mod.ts";
 
 import { Stater } from './state/mod.ts'
 import { Actioner } from './action/mod.ts'
+import { Transaction } from './transaction/mod.ts'
 
 export enum PicacliAction {
     Open = 'open',
@@ -11,10 +12,12 @@ export enum PicacliAction {
 export class Picacli {
     private state: Stater
     private action: Map<string, Actioner[]>
-    
+    private transaction: Transaction
+
     constructor(state: Stater) {
         this.state = state
         this.action = new Map()
+        this.transaction = new Transaction(this.state)
     }
 
     addAction(action: Actioner) {
@@ -52,18 +55,18 @@ export class Picacli {
 
         // ordenar de mayor a menor peso
         const actionsOrdered = Array.from(ordering.entries())
-        actionsOrdered.sort((a, b): number => {
-            const firstWeight = a[1].weight
-            const secondWeight = b[1].weight
-            return secondWeight - firstWeight
-        })
+        actionsOrdered
+            .sort((a, b): number => {
+                const firstWeight = a[1].weight
+                const secondWeight = b[1].weight
+                return secondWeight - firstWeight
+            })
 
-        // ejecutar acciones de mayor a menor peso
-        for(const entry of actionsOrdered) {
-            const actions = entry[1].actions
-
-            for(const action of actions)
-                await action.execute(this.state)
-        }
+        const actionsOnTransaction = actionsOrdered
+            .map(function(entry) {
+                return entry[1].actions
+            })
+            .flat()
+        await this.transaction.commit(actionsOnTransaction)
     }
 }

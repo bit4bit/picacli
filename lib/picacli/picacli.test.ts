@@ -6,6 +6,8 @@ import {
 
 import { ActionName, ActionRoot } from './action/mod.ts'
 import { Picacli, PicacliAction } from './mod.ts'
+import { Transaction } from './transaction/mod.ts'
+
 import { Stater } from './state/mod.ts'
 import { Hash256 } from './hash/sha256.ts'
 
@@ -22,6 +24,9 @@ class FakeState implements Stater {
     }
 
     async commit(): Promise<void> {
+    }
+
+    async rollback(): Promise<void> {
     }
 
     private flat_key(key: string) {
@@ -55,7 +60,16 @@ Deno.test('run actions on project open', async () => {
         when: function(): PicacliAction {
             return PicacliAction.Open
         },
-        execute: async function(state: Stater): Promise<void> {
+
+        async tcp_begin() {
+        },
+        async commit() {
+        },
+        async tcp_vote() {
+        },
+        async tcp_abort() {
+        },
+        async tcp_finish() {
             actionOutput.push('action 1')
         }
     })
@@ -69,7 +83,15 @@ Deno.test('run actions on project open', async () => {
         when: function(): PicacliAction {
             return PicacliAction.Open
         },
-        execute: async function(state: Stater): Promise<void> {
+        async tcp_begin() {
+        },
+        async commit() {
+        },
+        async tcp_vote() {
+        },
+        async tcp_abort() {
+        },
+        async tcp_finish() {
             actionOutput.push('action 2')
         }
     })
@@ -94,7 +116,15 @@ Deno.test('run actions in order of dependency', async () => {
         when: function(): PicacliAction {
             return PicacliAction.Open
         },
-        execute: async function(state: Stater): Promise<void> {
+        async tcp_begin() {
+        },
+        async commit() {
+        },
+        async tcp_vote() {
+        },
+        async tcp_abort() {
+        },
+        async tcp_finish() {
             actionOutput.push('action 0')
         }
     })
@@ -108,7 +138,15 @@ Deno.test('run actions in order of dependency', async () => {
         runAfter: function() {
             return ActionRoot
         },
-        execute: async function(state: Stater): Promise<void> {
+        async tcp_begin() {
+        },
+        async commit() {
+        },
+        async tcp_vote() {
+        },
+        async tcp_abort() {
+        },
+        async tcp_finish() {
             actionOutput.push('action 1')
         }
     })
@@ -122,7 +160,15 @@ Deno.test('run actions in order of dependency', async () => {
         when: function(): PicacliAction {
             return PicacliAction.Open
         },
-        execute: async function(state: Stater): Promise<void> {
+        async tcp_begin() {
+        },
+        async commit() {
+        },
+        async tcp_vote() {
+        },
+        async tcp_abort() {
+        },
+        async tcp_finish() {
             actionOutput.push('action 2')
         }
     })

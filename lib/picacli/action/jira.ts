@@ -10,7 +10,19 @@ export class JiraOpenAction implements Actioner {
         return PicacliAction.Open
     }
 
-    async execute(state: Stater): Promise<void> {
+    async tcp_begin(): Promise<void> {
+    }
+
+    async commit(): Promise<void> {
+    }
+
+    async tcp_vote(): Promise<void> {
+    }
+
+    async tcp_abort(): Promise<void> {
+    }
+
+    async tcp_finish(state: Stater): Promise<void> {
         console.log(`Jira Open Running for ${state.get('summary')}`)
     }
 }
