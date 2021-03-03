@@ -12,13 +12,13 @@ export class Transaction {
     async commit(dataManagers: DataManager[]) {
         try {
             for(const datamanager of dataManagers) {
-                await datamanager.tcp_begin()
+                await datamanager.tcp_begin(this.state)
             }
             for(const datamanager of dataManagers) {
-                await datamanager.commit()
+                await datamanager.commit(this.state)
             }
             for(const datamanager of dataManagers) {
-                await datamanager.tcp_vote()
+                await datamanager.tcp_vote(this.state)
             }
 
             await this.state.commit()
@@ -26,7 +26,7 @@ export class Transaction {
             for(const datamanager of dataManagers) {
                 // TODO si ahi exception error critico
                 // esta no debe fallar
-                await datamanager.tcp_finish()
+                await datamanager.tcp_finish(this.state)
             }
         } catch(e) {
             await this.rollback(dataManagers)
@@ -36,7 +36,7 @@ export class Transaction {
 
     async rollback(dataManagers: DataManager[]) {
         for(const datamanager of dataManagers) {
-            await datamanager.tcp_abort()
+            await datamanager.tcp_abort(this.state)
         }
         await this.state.rollback()
     }

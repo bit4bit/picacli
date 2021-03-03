@@ -22,7 +22,7 @@ export class JiraOpenAction implements Actioner {
     async tcp_abort(): Promise<void> {
     }
 
-    async tcp_finish(state: Stater): Promise<void> {
+    async tcp_finish(): Promise<void> {
         console.log(`Jira Open Running for ${state.get('summary')}`)
     }
 }
