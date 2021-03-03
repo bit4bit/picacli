@@ -8,7 +8,7 @@ export class Transaction {
 
     constructor(state: Stater, configurationState: Stater) {
         this.state = state
-        this.configurationState = state
+        this.configurationState = configurationState
     }
 
     async commit(dataManagers: DataManager[]) {
