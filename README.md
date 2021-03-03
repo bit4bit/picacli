@@ -13,7 +13,31 @@ Este busca cumplir las tareas siguientes:
  los otros no se ejecuta o realizan un rollback (eliminar rama, eliminar issue).
  - debe ser un cli facil ya que este flujo no solo para los desarrollos backend/frontend,
  sino para las nuevas integraciones de configuracion e infraestructura como codigo.
- 
+
+
+## uso (por implementar!!)
+
+~~~
+$ picacli open 'titulo o summary'
+~~~
+
+~~~
+$ picacli close
+~~~
+
+### iniciar reloj
+
+~~~
+$ picacli clock in
+~~~
+
+### detener reloj
+
+~~~
+$ picacli clock out
+~~~
+
+
 ## inspiraciones
 
  - https://cli.github.com/

@@ -1,4 +1,4 @@
-import { Actioner } from './mod.ts'
+import { Actioner, ActionName, ActionRoot } from './mod.ts'
 import { Stater } from '../state/mod.ts'
 import { PicacliAction } from '../mod.ts'
 
@@ -10,10 +10,23 @@ export class JiraOpenAction implements Actioner {
         return PicacliAction.Open
     }
 
-    async tcp_begin(): Promise<void> {
+    name(): ActionName {
+        return 'jira-open'
     }
 
-    async commit(): Promise<void> {
+    runAfter(): ActionName {
+        return ActionRoot
+    }
+
+    async tcp_begin(state: Stater, configurationState: Stater): Promise<void> {
+        const token = configurationState.get('jira.token')
+        if (!token) throw new Error('required jira.token')
+    }
+
+    async commit(state: Stater): Promise<void> {
+        const summary = state.get('summary')
+        if (!summary) throw new Error('need summary')        
+        state.set('jira.summary', summary)
     }
 
     async tcp_vote(): Promise<void> {
@@ -22,7 +35,8 @@ export class JiraOpenAction implements Actioner {
     async tcp_abort(): Promise<void> {
     }
 
-    async tcp_finish(): Promise<void> {
-        console.log(`Jira Open Running for ${state.get('summary')}`)
+    async tcp_finish(state: Stater): Promise<void> {
+        const summary = state.get('jira.summary') || 'invalid'
+        console.log(`Jira Open Running for ${summary}`)
     }
 }
