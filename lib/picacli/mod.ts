@@ -36,9 +36,31 @@ export class Picacli {
     }
 
     private async runActionsFor(when: string) {
-        for(const entry of this.action.entries()) {
-            const when = entry[0]
-            const actions = entry[1]
+        const ordering = new Map()
+        const actions: Actioner[] = this.action.get(when) || []
+
+        // obtener tabla de pesos segun dependencia runAfter
+        for(const action of actions) {
+            const after = action.runAfter()
+            const item = ordering.get(after) || {actions: [], weight: 0}
+            item.weight += 1
+            item.actions.push(action)
+            if (after == null)
+                item.weight += 99
+            ordering.set(after, item)
+        }
+
+        // ordenar de mayor a menor peso
+        const actionsOrdered = Array.from(ordering.entries())
+        actionsOrdered.sort((a, b): number => {
+            const firstWeight = a[1].weight
+            const secondWeight = b[1].weight
+            return secondWeight - firstWeight
+        })
+
+        // ejecutar acciones de mayor a menor peso
+        for(const entry of actionsOrdered) {
+            const actions = entry[1].actions
 
             for(const action of actions)
                 await action.execute(this.state)
