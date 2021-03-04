@@ -6,7 +6,8 @@ import { Transaction } from './transaction/mod.ts'
 
 export enum PicacliAction {
     Open = 'open',
-    Commit = 'commit'
+    Commit = 'commit',
+    ClockIn = 'clock-in'
 }
 
 export class Picacli {
@@ -35,6 +36,10 @@ export class Picacli {
         return await this.runActionsFor(PicacliAction.Open)
     }
 
+    async clockIn() {
+        return await this.runActionsFor(PicacliAction.ClockIn)
+    }
+    
     async commit() {
         await this.state.commit()
         return await this.runActionsFor(PicacliAction.Commit)
