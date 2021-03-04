@@ -1,6 +1,9 @@
+export type StateValue = string | number | undefined
+export type StateKey = string
+
 export interface Stater {
-    set(key: string, value: string | number): void
-    get(key: string): string | undefined
+    set(key: StateKey, value: StateValue): void
+    get(key: StateKey): StateValue
     commit(): Promise<void>
     rollback(): Promise<void>
 }
