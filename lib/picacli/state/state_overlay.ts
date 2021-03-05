@@ -28,6 +28,6 @@ export class StateOverlay implements Stater {
     }
 
     async rollback() {
-        await this.writeState.commit()
+        await this.writeState.rollback()
     }
 }
