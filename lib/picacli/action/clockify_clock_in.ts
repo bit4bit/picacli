@@ -32,14 +32,11 @@ export class ClockifyClockIn implements Actioner {
         const api_key = configurationState.get('clockify.api_key') + ''
         if (api_key == 'undefined')
             throw new Error('required clockify.api_key configuration item')
-        // TODO se pobla variable de instancia para ser usado por metodos privados
-        // otras alternativas?
-        this.api_key = api_key
 
         // TODO este parrafo se repite, otra alternativa
         let workspace_id = configurationState.get('clockify.workspace_id') + ''
         if (workspace_id == 'undefined')
-            workspace_id = await this.getWorkspaceFromUserInput()
+            workspace_id = await this.getWorkspaceFromUserInput(api_key)
             if (!workspace_id)
                 throw new Error(`
 required clockify.workspace_id configuration item
@@ -53,7 +50,7 @@ then register the value at *HOME/.picacli.json* or current project a *.picacli.j
         let project_id = configurationState.get('clockify.project_id') + ''
         if (project_id == 'undefined')
             // TODO no esclaro el uso de workspace_id en esta situacion
-            project_id = await this.getProjectFromUserInput(workspace_id)
+            project_id = await this.getProjectFromUserInput(api_key, workspace_id)
             if (!project_id)
                 throw new Error(`
 required clockify.project_id configuration item
@@ -64,7 +61,7 @@ $  curl -H 'x-api-key: MY API KEY' https://api.clockify.me/api/v1/workspaces/MY 
 then register the value at *HOME/.picacli.json* or current project a *.picacli.json*
 `)
         
-
+        this.api_key = api_key
         this.workspace_id = workspace_id
         this.project_id = project_id
         this.summary = summary
@@ -73,7 +70,7 @@ then register the value at *HOME/.picacli.json* or current project a *.picacli.j
     }
 
     async commit(state: Stater, configurationState: Stater): Promise<void> {
-        const response = await this.postResource('/v1/workspaces/' + this.workspace_id + '/time-entries', {
+        const response = await this.postResource(this.api_key, '/v1/workspaces/' + this.workspace_id + '/time-entries', {
             description: this.summary,
             projectId: this.project_id
         })
@@ -98,8 +95,9 @@ then register the value at *HOME/.picacli.json* or current project a *.picacli.j
     async tcp_finish(): Promise<void> {
     }
 
-    private async getProjectFromUserInput(workspace_id: string) {
+    private async getProjectFromUserInput(api_key: string, workspace_id: string) {
         const value = await this.getResourceFromUserInput(
+            api_key,
             `/v1/workspaces/${workspace_id}/projects`,
             (record) => { return `${record.name}/${record.clientName}` }
         )
@@ -107,8 +105,8 @@ then register the value at *HOME/.picacli.json* or current project a *.picacli.j
         return value
     }
 
-    private async getWorkspaceFromUserInput() {
-        const value = await this.getResourceFromUserInput(
+    private async getWorkspaceFromUserInput(api_key: string) {
+        const value = await this.getResourceFromUserInput(api_key,
             `/v1/workspaces`,
             (record) => { return record.name }
         )
@@ -116,8 +114,8 @@ then register the value at *HOME/.picacli.json* or current project a *.picacli.j
         return value
     }
 
-    private async getResourceFromUserInput(resource: string, getter_name: (record: any) => string) {
-        const records = await this.getResource(resource)
+    private async getResourceFromUserInput(api_key: string, resource: string, getter_name: (record: any) => string) {
+        const records = await this.getResource(api_key, resource)
 
         let options = []
         for(const record of records) {
@@ -142,31 +140,25 @@ then register the value at *HOME/.picacli.json* or current project a *.picacli.j
         return new TextDecoder().decode(buf.subarray(0, n)).trim()
     }
 
-    private async getResource(name: string) {
-        if (!this.api_key)
-            throw new Error('required api_key')
-        
+    private async getResource(api_key: string, name: string) {
         const res = await fetch(this.#BASE_URL + name, {
             method: 'GET',
             cache: 'no-cache',
             headers: {
                 'Content-Type': 'application/json',
-                'X-Api-Key': this.api_key
+                'X-Api-Key': api_key
             },
         })
         return await res.json()
     }
 
-    private async postResource(resource: string, body: object) {
-        if (!this.api_key)
-            throw new Error('required api_key')
-
+    private async postResource(api_key: string, resource: string, body: object) {
         return await fetch(this.#BASE_URL + resource, {
             method: 'POST',
             cache: 'no-cache',
             headers: {
                 'Content-Type': 'application/json',
-                'X-Api-Key': this.api_key
+                'X-Api-Key': api_key
             },
             body: JSON.stringify(body)
         })
