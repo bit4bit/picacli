@@ -21,6 +21,7 @@ deploy:
     file: picacli
     skip_cleanup: true
     draft: true
+    overwrite: true
   on:
     repo: bit4bit/picacli
     tags: true
