@@ -30,7 +30,7 @@ export class ClockIn implements Actioner {
         if (!summary)
             throw new Error('required summary')
         
-        const apiKey = configurationState.get('clockify.apiKey') + ''
+        const apiKey = configurationState.get('clockify.api_key') + ''
         if (apiKey == 'undefined')
             throw new Error('required clockify.apiKey configuration item')
         this.clockManager.apiKey = apiKey
@@ -49,7 +49,7 @@ $ curl -H 'x-api-key: MY API KEY' https://api.clockify.me/api/v1/workspaces
 then register the value at *HOME/.picacli.json* or current project a *.picacli.json*
 `)
 
-        let projectId = configurationState.get('clockify.projectId') + ''
+        let projectId = configurationState.get('clockify.project_id') + ''
         if (projectId == 'undefined')
             // TODO no esclaro el uso de workspaceId en esta situacion
             projectId = await this.getProjectFromUserInput(workspaceId)
@@ -71,12 +71,12 @@ then register the value at *HOME/.picacli.json* or current project a *.picacli.j
         this.clockManager.workspaceId = this.workspaceId
 
 
-        configurationState.set('clockify.workspaceId', workspaceId)
+        configurationState.set('clockify.workspace_id', workspaceId)
     }
 
     async commit(state: Stater, configurationState: Stater) {
         const clockId = await this.clockManager.in(this.projectId, this.summary)
-        state.set('clockify.clockId', clockId)
+        state.set('clockify.clock_id', clockId)
         configurationState.commit()
     }
 
@@ -127,11 +127,9 @@ then register the value at *HOME/.picacli.json* or current project a *.picacli.j
     }
 
     private async readUserInput(message: string) {
-        //TOMADO DE https://www.danvega.dev/blog/2020/06/03/deno-stdin-stdout/
-        await Deno.stdout.write(new TextEncoder().encode(message + ": "));
-        
-        const buf = new Uint8Array(1024);
-        const n = <number>await Deno.stdin.read(buf)
-        return new TextDecoder().decode(buf.subarray(0, n)).trim()
+        const input = prompt(message)
+        if (input)
+            return input.trim()
+        return ''
     }
 }
