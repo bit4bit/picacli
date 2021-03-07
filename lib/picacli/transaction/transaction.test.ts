@@ -38,43 +38,43 @@ Deno.test('test rollback on fail transaction', async () => {
     
     const datamanagers = [
         {
-            tcpBegin() {
+            async tcpBegin() {
             },
-            commit() {
+            async commit() {
             },
-            tcpVote() {
+            async tcpVote() {
                 outputs.push('vote0')
             },
-            tcpAbort() {
+            async tcpAbort() {
                 outputs.push('abort0')
             },
-            tcpFinish() {
+            async tcpFinish() {
             }
         },
         {
-            tcpBegin() {
+            async tcpBegin() {
             },
-            commit() {
+            async commit() {
             },
-            tcpVote() {
+            async tcpVote() {
                 throw new Error()
             },
-            tcpAbort() {
+            async tcpAbort() {
                 outputs.push('abort1')
             },
-            tcpFinish() {
+            async tcpFinish() {
             }
         },
         {
-            tcpBegin() {
+            async tcpBegin() {
             },
-            commit() {
+            async commit() {
             },
-            tcpVote() {
+            async tcpVote() {
             },
-            tcpAbort() {
+            async tcpAbort() {
             },
-            tcpFinish() {
+            async tcpFinish() {
                 outputs.push('finish2')
             }
         }

@@ -1,4 +1,4 @@
-.PHONY: linter compile test
+.PHONY: compile test
 
 test:
 	deno test -A

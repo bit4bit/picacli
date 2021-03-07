@@ -61,15 +61,15 @@ Deno.test('run actions on project open', async () => {
             return PicacliAction.Open
         },
 
-        tcpBegin() {
+        async tcpBegin() {
         },
-        commit() {
+        async commit() {
         },
-        tcpVote() {
+        async tcpVote() {
         },
-        tcpAbort() {
+        async tcpAbort() {
         },
-        tcpFinish() {
+        async tcpFinish() {
             actionOutput.push('action 1')
         }
     })
@@ -83,15 +83,15 @@ Deno.test('run actions on project open', async () => {
         when: function(): PicacliAction {
             return PicacliAction.Open
         },
-        tcpBegin(): Promise<void> {
+        async tcpBegin() {
         },
-        commit(): Promise<void> {
+        async commit() {
         },
-        tcpVote(): Promise<void> {
+        async tcpVote() {
         },
-        tcpAbort(): Promise<void> {
+        async tcpAbort() {
         },
-        tcpFinish(): Promise<void> {
+        async tcpFinish() {
             actionOutput.push('action 2')
         }
     })
@@ -116,15 +116,15 @@ Deno.test('run actions in order of dependency', async () => {
         when: function(): PicacliAction {
             return PicacliAction.Open
         },
-        tcpBegin(): Promise<void> {
+        async tcpBegin(): Promise<void> {
         },
-        commit(): Promise<void> {
+        async commit(): Promise<void> {
         },
-        tcpVote(): Promise<void> {
+        async tcpVote(): Promise<void> {
         },
-        tcpAbort(): Promise<void> {
+        async tcpAbort(): Promise<void> {
         },
-        tcpFinish(): Promise<void> {
+        async tcpFinish(): Promise<void> {
             actionOutput.push('action 0')
         }
     })
@@ -138,15 +138,15 @@ Deno.test('run actions in order of dependency', async () => {
         runAfter: function() {
             return ActionRoot
         },
-        tcpBegin(): Promise<void> {
+        async tcpBegin(): Promise<void> {
         },
-        commit(): Promise<void> {
+        async commit(): Promise<void> {
         },
-        tcpVote(): Promise<void> {
+        async tcpVote(): Promise<void> {
         },
-        tcpAbort(): Promise<void> {
+        async tcpAbort(): Promise<void> {
         },
-        tcpFinish(): Promise<void> {
+        async tcpFinish(): Promise<void> {
             actionOutput.push('action 1')
         }
     })
@@ -160,15 +160,15 @@ Deno.test('run actions in order of dependency', async () => {
         when: function(): PicacliAction {
             return PicacliAction.Open
         },
-        tcpBegin(): Promise<void> {
+        async tcpBegin(): Promise<void> {
         },
-        commit(): Promise<void> {
+        async commit(): Promise<void> {
         },
-        tcpVote(): Promise<void> {
+        async tcpVote(): Promise<void> {
         },
-        tcpAbort(): Promise<void> {
+        async tcpAbort(): Promise<void> {
         },
-        tcpFinish(): Promise<void> {
+        async tcpFinish(): Promise<void> {
             actionOutput.push('action 2')
         }
     })
