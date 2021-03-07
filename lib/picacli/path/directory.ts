@@ -6,11 +6,11 @@ export class ProjectDirectoryResolve {
         return this.findFilename(filenames, directory)
     }
 
-    private findFilename(stop_filenames: string[], directory: string): string {
+    private findFilename(stopFilenames: string[], directory: string): string {
         for(const entry of walkSync(directory)) {
             const name = path.basename(entry.path)
 
-            if(stop_filenames.includes(name)) {
+            if(stopFilenames.includes(name)) {
                 return path.dirname(entry.path)
             }
 
@@ -21,7 +21,7 @@ export class ProjectDirectoryResolve {
                 continue
         }
 
-        return this.findFilename(stop_filenames, path.join(directory, '../'))
+        return this.findFilename(stopFilenames, path.join(directory, '../'))
     }
 
 }

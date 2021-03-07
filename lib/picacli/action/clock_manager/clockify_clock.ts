@@ -1,8 +1,8 @@
 
 export class ClockifyClock {
     readonly #BASE_URL: string = "https://api.clockify.me/api"
-    private _apiKey: string = ''
-    private _workspaceId: string = ''
+    private _apiKey = ''
+    private _workspaceId = ''
 
 
     public set apiKey(key: string) {
@@ -43,7 +43,7 @@ export class ClockifyClock {
         return await res.json()
     }
 
-    private async postResource(resource: string, body: object) {
+    private async postResource(resource: string, body: unknown) {
         return await fetch(this.#BASE_URL + resource, {
             method: 'POST',
             cache: 'no-cache',

@@ -22,7 +22,7 @@ const state = new JsonState(path.join(projectRoot, '.picacli.state'))
 
 // configuration state of current project
 const projectConfigurationState = new JsonState(path.join(projectRoot, PICACLI_CONFIGURATION))
-let userConfigurationStates = []
+const userConfigurationStates = []
 if (homeUser) {
     userConfigurationStates.push(
         new JsonState(path.join(homeUser, PICACLI_CONFIGURATION))

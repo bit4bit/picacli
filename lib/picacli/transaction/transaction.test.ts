@@ -9,7 +9,7 @@ import { Stater } from '../state/mod.ts'
 
 class FakeState implements Stater {
     private data: Map<string, string> = new Map()
-    private project: string = ''
+    private project = ''
 
     set(key: string, val: string) {
         this.data.set(this.flat_key(key), val)
@@ -38,43 +38,43 @@ Deno.test('test rollback on fail transaction', async () => {
     
     const datamanagers = [
         {
-            async tcp_begin() {
+            tcpBegin() {
             },
-            async commit() {
+            commit() {
             },
-            async tcp_vote() {
+            tcpVote() {
                 outputs.push('vote0')
             },
-            async tcp_abort() {
+            tcpAbort() {
                 outputs.push('abort0')
             },
-            async tcp_finish() {
+            tcpFinish() {
             }
         },
         {
-            async tcp_begin() {
+            tcpBegin() {
             },
-            async commit() {
+            commit() {
             },
-            async tcp_vote() {
+            tcpVote() {
                 throw new Error()
             },
-            async tcp_abort() {
+            tcpAbort() {
                 outputs.push('abort1')
             },
-            async tcp_finish() {
+            tcpFinish() {
             }
         },
-                {
-            async tcp_begin() {
+        {
+            tcpBegin() {
             },
-            async commit() {
+            commit() {
             },
-            async tcp_vote() {
+            tcpVote() {
             },
-            async tcp_abort() {
+            tcpAbort() {
             },
-            async tcp_finish() {
+            tcpFinish() {
                 outputs.push('finish2')
             }
         }

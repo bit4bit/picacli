@@ -7,10 +7,10 @@ import { ClockifyClock } from './clock_manager/clockify_clock.ts'
  *Inicia reloj de clockify
  */
 export class ClockIn implements Actioner {
-    private summary: string = ''
-    private api_key: string = ''
-    private workspace_id: string = ''
-    private project_id: string = ''
+    private summary = ''
+    private apiKey = ''
+    private workspaceId = ''
+    private projectId = ''
     private clockManager: ClockifyClock = new ClockifyClock()
     
     name(): ActionName {
@@ -25,23 +25,23 @@ export class ClockIn implements Actioner {
         return ActionRoot
     }
 
-    async tcp_begin(state: Stater, configurationState: Stater): Promise<void> {
+    async tcpBegin(state: Stater, configurationState: Stater) {
         const summary = state.get('summary') + ''
         if (!summary)
             throw new Error('required summary')
         
-        const api_key = configurationState.get('clockify.api_key') + ''
-        if (api_key == 'undefined')
-            throw new Error('required clockify.api_key configuration item')
-        this.clockManager.apiKey = api_key
+        const apiKey = configurationState.get('clockify.apiKey') + ''
+        if (apiKey == 'undefined')
+            throw new Error('required clockify.apiKey configuration item')
+        this.clockManager.apiKey = apiKey
 
         // TODO este parrafo se repite, otra alternativa
-        let workspace_id = configurationState.get('clockify.workspace_id') + ''
-        if (workspace_id == 'undefined')
-            workspace_id = await this.getWorkspaceFromUserInput()
-            if (!workspace_id)
+        let workspaceId = configurationState.get('clockify.workspaceId') + ''
+        if (workspaceId == 'undefined')
+            workspaceId = await this.getWorkspaceFromUserInput()
+            if (!workspaceId)
                 throw new Error(`
-required clockify.workspace_id configuration item
+required clockify.workspaceId configuration item
 
 in shell run:
 $ curl -H 'x-api-key: MY API KEY' https://api.clockify.me/api/v1/workspaces
@@ -49,13 +49,13 @@ $ curl -H 'x-api-key: MY API KEY' https://api.clockify.me/api/v1/workspaces
 then register the value at *HOME/.picacli.json* or current project a *.picacli.json*
 `)
 
-        let project_id = configurationState.get('clockify.project_id') + ''
-        if (project_id == 'undefined')
-            // TODO no esclaro el uso de workspace_id en esta situacion
-            project_id = await this.getProjectFromUserInput(workspace_id)
-            if (!project_id)
+        let projectId = configurationState.get('clockify.projectId') + ''
+        if (projectId == 'undefined')
+            // TODO no esclaro el uso de workspaceId en esta situacion
+            projectId = await this.getProjectFromUserInput(workspaceId)
+            if (!projectId)
                 throw new Error(`
-required clockify.project_id configuration item
+required clockify.projectId configuration item
 
 in shell run:
 $  curl -H 'x-api-key: MY API KEY' https://api.clockify.me/api/v1/workspaces/MY WORKSPACE ID/projects
@@ -63,36 +63,36 @@ $  curl -H 'x-api-key: MY API KEY' https://api.clockify.me/api/v1/workspaces/MY 
 then register the value at *HOME/.picacli.json* or current project a *.picacli.json*
 `)
 
-        this.api_key = api_key
-        this.workspace_id = workspace_id
-        this.project_id = project_id
+        this.apiKey = apiKey
+        this.workspaceId = workspaceId
+        this.projectId = projectId
         this.summary = summary
         
-        this.clockManager.workspaceId = this.workspace_id
+        this.clockManager.workspaceId = this.workspaceId
 
 
-        configurationState.set('clockify.workspace_id', workspace_id)
+        configurationState.set('clockify.workspaceId', workspaceId)
     }
 
-    async commit(state: Stater, configurationState: Stater): Promise<void> {
-        const clock_id = await this.clockManager.in(this.project_id, this.summary)
-        state.set('clockify.clock_id', clock_id)
+    async commit(state: Stater, configurationState: Stater) {
+        const clockId = await this.clockManager.in(this.projectId, this.summary)
+        state.set('clockify.clockId', clockId)
         configurationState.commit()
     }
 
-    async tcp_vote(): Promise<void> {
+    async tcpVote() {
         console.log('!! clockify clock starts')
     }
 
-    async tcp_abort(): Promise<void> {
+    async tcpAbort() {
     }
 
-    async tcp_finish(): Promise<void> {
+    async tcpFinish() {
     }
 
-    private async getProjectFromUserInput(workspace_id: string) {
+    private async getProjectFromUserInput(workspaceId: string) {
         const value = await this.getResourceFromUserInput(
-            `/v1/workspaces/${workspace_id}/projects`,
+            `/v1/workspaces/${workspaceId}/projects`,
             (record) => { return `${record.name}/${record.clientName}` }
         )
 
@@ -108,14 +108,14 @@ then register the value at *HOME/.picacli.json* or current project a *.picacli.j
         return value
     }
 
-    private async getResourceFromUserInput(resource: string, getter_name: (record: any) => string) {
+    private async getResourceFromUserInput(resource: string, getterName: (record: any) => string) {
 
         const records = await this.clockManager.getResource(resource)
 
-        let options = []
+        const options = []
         for(const record of records) {
             const option = options.length
-            const name = getter_name(record)
+            const name = getterName(record)
 
             console.log(`${option}: ${name}`)
 

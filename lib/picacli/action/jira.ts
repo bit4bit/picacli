@@ -18,24 +18,24 @@ export class JiraOpenAction implements Actioner {
         return ActionRoot
     }
 
-    async tcp_begin(state: Stater, configurationState: Stater): Promise<void> {
+    async tcpBegin(state: Stater, configurationState: Stater) {
         const token = configurationState.get('jira.token')
         if (!token) throw new Error('required jira.token')
     }
 
-    async commit(state: Stater): Promise<void> {
+    async commit(state: Stater)  {
         const summary = state.get('summary')
         if (!summary) throw new Error('need summary')        
         state.set('jira.summary', summary)
     }
 
-    async tcp_vote(): Promise<void> {
+    async tcpVote() {
     }
 
-    async tcp_abort(): Promise<void> {
+    async tcpAbort() {
     }
 
-    async tcp_finish(state: Stater): Promise<void> {
+    async tcpFinish(state: Stater) {
         const summary = state.get('jira.summary') || 'invalid'
         console.log(`Jira Open Running for ${summary}`)
     }

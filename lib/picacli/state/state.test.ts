@@ -9,7 +9,7 @@ import { Stater } from './mod.ts'
 import { StateOverlay } from './state_overlay.ts'
 import { StateMemory } from './state_memory.ts'
 
-Deno.test('test overlay state', async () => {
+Deno.test('test overlay state', () => {
     const writer = new StateMemory()
     const readers = [
         new StateMemory(),
