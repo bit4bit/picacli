@@ -12,4 +12,7 @@ before_install:
   - export PATH="$DENO_INSTALL/bin:$PATH"
   - deno run https://deno.land/std/examples/welcome.ts
 script:
+  - make test
   - make compile
+deploy:
+  skip_cleanup: true
