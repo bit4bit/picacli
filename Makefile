@@ -4,4 +4,4 @@ test:
 	deno test -A
 
 compile:
-	deno compile --unstable main.ts
+	deno compile --unstable -A main.ts
