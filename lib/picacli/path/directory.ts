@@ -1,5 +1,4 @@
-import { walkSync } from 'https://deno.land/std/fs/walk.ts'
-import * as path from "https://deno.land/std@0.88.0/path/mod.ts";
+import { walkSync, path } from '../../deps.ts'
 
 export class ProjectDirectoryResolve {
     rootDirectory(filenames: string[]): string {

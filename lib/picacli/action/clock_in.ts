@@ -6,7 +6,7 @@ import { ClockifyClock } from './clock_manager/clockify_clock.ts'
 /**
  *Inicia reloj de clockify
  */
-export class ClockifyClockIn implements Actioner {
+export class ClockIn implements Actioner {
     private summary: string = ''
     private api_key: string = ''
     private workspace_id: string = ''

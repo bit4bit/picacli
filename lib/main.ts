@@ -1,14 +1,14 @@
 // ensambla componentes y define comportamiento de picacli
 
-import * as path from "https://deno.land/std@0.88.0/path/mod.ts";
+import { path } from './deps.ts'
 
-import {Picacli} from './picacli/mod.ts'
+import { Picacli } from './picacli/mod.ts'
 import { JsonState } from './picacli/state/json_state.ts'
 import { StateOverlay } from './picacli/state/state_overlay.ts'
 
 import { ProjectDirectoryResolve } from './picacli/path/mod.ts'
 import { JiraOpenAction } from './picacli/action/jira.ts'
-import { ClockifyClockIn } from './picacli/action/clockify_clock_in.ts'
+import { ClockIn } from './picacli/action/clock_in.ts'
 
 const PICACLI_CONFIGURATION = '.picacli.json'
 const homeUser = Deno.env.get('HOME')
@@ -33,6 +33,6 @@ const configurationState = new StateOverlay(projectConfigurationState,
 
 const picacli = new Picacli(state, configurationState)
 picacli.addAction(new JiraOpenAction())
-picacli.addAction(new ClockifyClockIn())
+picacli.addAction(new ClockIn())
 
 export default picacli
