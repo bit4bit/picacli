@@ -18,8 +18,10 @@ deploy:
   provider: releases
   api_key:
     secure: TlnrZ5u7vsrwUhkHo6fu55NKBjB5tk4WIDRleyVghpp6C72kuMNlOW9AQDJvYAZNzEM9AlIcj9WPHwPYRoa/KSbXl1vdx0NK432F/fZ3sPPP1FsGQNw3v2stpc632lIkBXrj7JAaRQohVfS79liaY6JGwdsmmTnIn1JbGv/Y0/a8Vz/c0rSfWM3o+cot7BV4cqHbhoNecLBJ7KGvsGcSPOiWr76FCebmdaFG7KH4xRDFUkVmNzGbEfnlUvAfsfseRrR+jY52EL+MZbtgoqfwDQJmcJJGFOBS0YJttfQuVvub59R3ibyP0m8ajjgO31m6M47MAlaeShHsAp23/ZEabVv9LgiuS3zGRPEux05gECEdhdN4VAtcDcvpi52Dw+My/gs9bDUGqQDeN1/UBLyOZ6vX1c4FpRjoVLcL01AR9hqZ4x4CmbuuvJjEIlP1coOxw/u59ADN4KDQSJHIQjKRxpqrAZMRz/ME3/jUpiTOjUuZMR3n9L9hTGYRIG+5NqcXIeiZJHV4TseN5MyzKFG7/HTqLpxhfQO6IqUXKCI8hYkU7VUos1MZjXtw4lkQAxjHctBPnZmAY0DgDPt4fRfdDKu9X2hLWeFXGXUKgEA3YOK0MOfdTuI5U25xHZXx1vcLF0b9LWDFBR7fz0KQEmhXYTnvx7ywy7KbYp8cso8qGbk=
-  file: picacli
-  skip_cleanup: true
-  draft: true
+    file: picacli
+    skip_cleanup: true
+    draft: true
   on:
-    tags
+    repo: bit4bit/picacli
+    tags: true
+    all_branches: true
