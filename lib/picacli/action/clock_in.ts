@@ -31,17 +31,17 @@ export class ClockIn implements Actioner {
             throw new Error('required summary')
         
         const apiKey = configurationState.get('clockify.api_key') + ''
-        if (apiKey == 'undefined')
+        if (apiKey == '')
             throw new Error('required clockify.apiKey configuration item')
         this.clockManager.apiKey = apiKey
 
         // TODO este parrafo se repite, otra alternativa
         let workspaceId = configurationState.get('clockify.workspaceId') + ''
-        if (workspaceId == 'undefined')
+        if (workspaceId == '')
             workspaceId = await this.getWorkspaceFromUserInput()
             if (!workspaceId)
                 throw new Error(`
-required clockify.workspaceId configuration item
+required clockify.workspace_id configuration item
 
 in shell run:
 $ curl -H 'x-api-key: MY API KEY' https://api.clockify.me/api/v1/workspaces
@@ -50,12 +50,12 @@ then register the value at *HOME/.picacli.json* or current project a *.picacli.j
 `)
 
         let projectId = configurationState.get('clockify.project_id') + ''
-        if (projectId == 'undefined')
+        if (projectId == '')
             // TODO no esclaro el uso de workspaceId en esta situacion
             projectId = await this.getProjectFromUserInput(workspaceId)
             if (!projectId)
                 throw new Error(`
-required clockify.projectId configuration item
+required clockify.project_id configuration item
 
 in shell run:
 $  curl -H 'x-api-key: MY API KEY' https://api.clockify.me/api/v1/workspaces/MY WORKSPACE ID/projects

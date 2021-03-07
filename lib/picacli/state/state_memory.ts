@@ -1,14 +1,17 @@
-import { Stater } from './mod.ts'
+import { Stater, StateKey, StateValue } from './mod.ts'
 
 export class StateMemory implements Stater {
     private data: Map<string, string | number> = new Map()
 
-    set(key: string, val: string | number) {
+    set(key: StateKey, val: StateValue) {
         this.data.set(key, val)
     }
 
-    get(key: string) {
-        return this.data.get(key)
+    get(key: StateKey): StateValue {
+        const value = this.data.get(key)
+        if (value === undefined)
+            return ''
+        return value
     }
 
     async commit(): Promise<void> {

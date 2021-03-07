@@ -16,7 +16,7 @@ export class StateOverlay implements Stater {
     get(key: StateKey): StateValue {
         for(const state of this.states) {
             const val = state.get(key)
-            if (val !== undefined) {
+            if (val !== '') {
                 return val
             }
         }

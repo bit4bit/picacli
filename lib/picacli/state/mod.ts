@@ -1,4 +1,4 @@
-export type StateValue = string | number | undefined
+export type StateValue = string | number
 export type StateKey = string
 
 export interface Stater {

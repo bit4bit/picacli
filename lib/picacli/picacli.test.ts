@@ -8,7 +8,7 @@ import { ActionName, ActionRoot } from './action/mod.ts'
 import { Picacli, PicacliAction } from './mod.ts'
 import { Transaction } from './transaction/mod.ts'
 
-import { Stater } from './state/mod.ts'
+import { Stater, StateValue } from './state/mod.ts'
 import { Hash256 } from './hash/sha256.ts'
 
 class FakeState implements Stater {
@@ -19,8 +19,11 @@ class FakeState implements Stater {
         this.data.set(this.flat_key(key), val)
     }
 
-    get(key: string) {
-        return this.data.get(this.flat_key(key))
+    get(key: string): StateValue {
+        const value = this.data.get(this.flat_key(key))
+        if (!value)
+            return ''
+        return value
     }
 
     async commit(): Promise<void> {

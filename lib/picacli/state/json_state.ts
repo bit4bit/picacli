@@ -25,8 +25,11 @@ export class JsonState {
         this.state[key] = value
     }
 
-    get(key: string): string | undefined {
-        return this.state[key]
+    get(key: string): string {
+        const value = this.state[key]
+        if (!value)
+            return ''
+        return value
     }
 
     async commit() {

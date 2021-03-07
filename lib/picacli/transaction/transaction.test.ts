@@ -5,7 +5,7 @@ import {
 } from 'https://deno.land/std@0.88.0/testing/asserts.ts'
 
 import { Transaction } from './mod.ts'
-import { Stater } from '../state/mod.ts'
+import { Stater, StateValue } from '../state/mod.ts'
 
 class FakeState implements Stater {
     private data: Map<string, string> = new Map()
@@ -15,8 +15,11 @@ class FakeState implements Stater {
         this.data.set(this.flat_key(key), val)
     }
 
-    get(key: string) {
-        return this.data.get(this.flat_key(key))
+    get(key: string): StateValue {
+        const value = this.data.get(this.flat_key(key))
+        if (!value)
+            return ''
+        return value
     }
 
     async commit(): Promise<void> {
