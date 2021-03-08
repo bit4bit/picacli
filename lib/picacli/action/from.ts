@@ -13,7 +13,7 @@ export class From implements Actioner {
     }
 
     when(): PicacliAction {
-        return PicacliAction.OpenFrom
+        return PicacliAction.Open
     }
 
     runAfter(): ActionName {
