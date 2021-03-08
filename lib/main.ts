@@ -9,6 +9,7 @@ import { StateOverlay } from './picacli/state/state_overlay.ts'
 import { ProjectDirectoryResolve } from './picacli/path/mod.ts'
 import { JiraOpenAction } from './picacli/action/jira.ts'
 import { ClockIn } from './picacli/action/clock_in.ts'
+import { From } from './picacli/action/from.ts'
 
 const PICACLI_CONFIGURATION = '.picacli.json'
 const homeUser = Deno.env.get('HOME')
@@ -34,5 +35,6 @@ const configurationState = new StateOverlay(projectConfigurationState,
 const picacli = new Picacli(state, configurationState)
 picacli.addAction(new JiraOpenAction())
 picacli.addAction(new ClockIn())
+picacli.addAction(new From())
 
 export default picacli
