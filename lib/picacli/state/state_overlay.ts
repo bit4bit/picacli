@@ -23,6 +23,14 @@ export class StateOverlay implements Stater {
         return this.writeState.get(key)
     }
 
+    has(key: StateKey): boolean {
+        for(const state of this.states) {
+            if (state.has(key))
+                return true
+        }
+        return this.writeState.has(key)
+    }
+    
     async commit() {
         await this.writeState.commit()
     }

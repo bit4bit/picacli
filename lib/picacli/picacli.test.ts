@@ -10,32 +10,8 @@ import { Transaction } from './transaction/mod.ts'
 
 import { Stater, StateValue } from './state/mod.ts'
 import { Hash256 } from './hash/sha256.ts'
+import { StateMemory as FakeState } from './state/state_memory.ts'
 
-class FakeState implements Stater {
-    private data: Map<string, string> = new Map()
-    private project = ''
-
-    set(key: string, val: string) {
-        this.data.set(this.flat_key(key), val)
-    }
-
-    get(key: string): StateValue {
-        const value = this.data.get(this.flat_key(key))
-        if (!value)
-            return ''
-        return value
-    }
-
-    async commit(): Promise<void> {
-    }
-
-    async rollback(): Promise<void> {
-    }
-
-    private flat_key(key: string) {
-        return `${this.project}:${key}`
-    }
-}
 
 Deno.test('open a project', async () => {
     const fakeState = new FakeState()

@@ -6,32 +6,7 @@ import {
 
 import { Transaction } from './mod.ts'
 import { Stater, StateValue } from '../state/mod.ts'
-
-class FakeState implements Stater {
-    private data: Map<string, string> = new Map()
-    private project = ''
-
-    set(key: string, val: string) {
-        this.data.set(this.flat_key(key), val)
-    }
-
-    get(key: string): StateValue {
-        const value = this.data.get(this.flat_key(key))
-        if (!value)
-            return ''
-        return value
-    }
-
-    async commit(): Promise<void> {
-    }
-
-    async rollback(): Promise<void> {
-    }
-
-    private flat_key(key: string) {
-        return `${this.project}:${key}`
-    }
-}
+import { StateMemory as FakeState } from '../state/state_memory.ts'
 
 Deno.test('test rollback on fail transaction', async () => {
     const fakeState = new FakeState()

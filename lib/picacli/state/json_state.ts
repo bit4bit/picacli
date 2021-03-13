@@ -32,6 +32,13 @@ export class JsonState {
         return value
     }
 
+    has(key: string): boolean {
+        const value = this.state[key]
+        if (!value)
+            return false
+        return true
+    }
+    
     async commit() {
         const data = JSON.stringify(this.state)
         await Deno.writeTextFile(this.path, data)

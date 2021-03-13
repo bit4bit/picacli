@@ -8,3 +8,4 @@ export class path {
     static basename = basename
     static normalize = normalize
 }
+

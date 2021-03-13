@@ -14,6 +14,10 @@ export class StateMemory implements Stater {
         return value
     }
 
+    has(key: StateKey): boolean {
+        return this.data.has(key)
+    }
+    
     async commit(): Promise<void> {
     }
 
