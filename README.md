@@ -17,7 +17,23 @@ Este busca cumplir las tareas siguientes:
  sino para las nuevas integraciones de configuracion e infraestructura como codigo.
 
 
-## uso (por implementar!!)
+## uso
+
+### desde issue jira
+
+~~~
+$ picacli from <ID>
+~~~
+
+### iniciar reloj
+
+~~~
+$ picacli clock in
+~~~
+
+## por implementar !!
+
+### uso
 
 ~~~
 $ picacli open 'titulo o summary'
@@ -27,11 +43,21 @@ $ picacli open 'titulo o summary'
 $ picacli close
 ~~~
 
-### iniciar reloj
+
+### uso github
 
 ~~~
-$ picacli clock in
+$ picacli github pr create
 ~~~
+
+~~~
+$ picacli github pr status
+~~~
+
+~~~
+$ picacli github pr merge
+~~~
+
 
 ### detener reloj
 
