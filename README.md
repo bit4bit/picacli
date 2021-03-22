@@ -19,6 +19,14 @@ Este busca cumplir las tareas siguientes:
 
 ## uso
 
+### compilar desde fuente
+
+~~~
+$ git clone https://github.com/bit4bit/picacli
+$ cd picacli
+$ deno compile --unstable main.ts
+~~~
+
 ### desde issue jira
 
 ~~~
