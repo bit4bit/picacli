@@ -41,6 +41,12 @@ $ picacli from <ID>
 $ picacli clock in
 ~~~
 
+### detener reloj
+
+~~~
+$ picacli clock out
+~~~
+
 ## por implementar !!
 
 ### uso
@@ -69,11 +75,6 @@ $ picacli github pr merge
 ~~~
 
 
-### detener reloj
-
-~~~
-$ picacli clock out
-~~~
 
 
 ## inspiraciones
