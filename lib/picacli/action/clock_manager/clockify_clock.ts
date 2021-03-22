@@ -28,6 +28,15 @@ export class ClockifyClock {
     }
 
     async out(clockId: string) {
+        const at = (new Date()).toISOString()
+        const response = await this.putResource('/workspaces/' + this._workspaceId + '/timeEntries/endStarted', {
+            end: at
+        })
+
+        if (response.status != 200)
+            throw new Error('failed to stop active clock')
+
+        return true
     }
 
     // TODO fuga de metodo interno
@@ -44,14 +53,22 @@ export class ClockifyClock {
     }
 
     private async postResource(resource: string, body: unknown) {
+        return await this.doResource('POST', resource, body)
+    }
+
+    private async putResource(resource: string, body: unknown) {
+        return await this.doResource('PUT', resource, body)
+    }
+
+    private async doResource(method: string, resource: string, body: unknown) {
         return await fetch(this.#BASE_URL + resource, {
-            method: 'POST',
+            method: method,
             cache: 'no-cache',
             headers: {
                 'Content-Type': 'application/json',
                 'X-Api-Key': this._apiKey
             },
             body: JSON.stringify(body)
-        })
+        })        
     }
 }

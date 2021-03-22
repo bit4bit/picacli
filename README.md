@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/bit4bit/picacli.svg?branch=main)](https://travis-ci.org/bit4bit/picacli)
 
-**!!not ready for production!!**
+**!!opiniated please not use it!!!**
 
 cliente para complementar, agilizar y hacer mas efectivo el flujo de trabajo.
 

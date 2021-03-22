@@ -1,13 +1,13 @@
 import {Commander} from '../cli/mod.ts'
 import Picacli from '../main.ts'
 
-export default class ClockInCommand implements Commander {
-    readonly name: string = 'clock-in'
+export default class ClockOutCommand implements Commander {
+    readonly name: string = 'clock-out'
     readonly description: string = `
-start clock
+stop clock
 `
 
     execute(args: string[]) {
-        Picacli.clockIn()
+        Picacli.clockOut()
     }
 }

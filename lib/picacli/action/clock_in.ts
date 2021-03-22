@@ -6,6 +6,10 @@ import { ClockifyClock } from './clock_manager/clockify_clock.ts'
 /**
  *Inicia reloj de clockify
  */
+// TODO la accion de terminar el reloj
+// esta dependiente de clockify-clock, abstraer
+// una posibilidad es declara un ClockInClockify
+// que se ejecute en cadena desde clock
 export class ClockIn implements Actioner {
     private summary = ''
     private apiKey = ''
@@ -29,7 +33,7 @@ export class ClockIn implements Actioner {
         const summary = state.get('summary') + ''
         if (!summary)
             throw new Error('required summary')
-        
+
         const apiKey = configurationState.get('clockify.api_key') + ''
         if (apiKey == '')
             throw new Error('required clockify.apiKey configuration item')
@@ -72,10 +76,20 @@ then register the value at *HOME/.picacli.json* or current project a *.picacli.j
 
 
         configurationState.set('clockify.workspace_id', workspaceId)
+        state.set('clockify.project_id', projectId)
+        state.set('clockify.workspace_id', workspaceId)
+        state.set('clockify.api_key', apiKey)
     }
 
     async commit(state: Stater, configurationState: Stater) {
-        const clockId = await this.clockManager.in(this.projectId, this.summary)
+        let summary: string = this.summary
+
+        // TODO hacer variable el formateo
+        if (state.has('key')) {
+            summary = `[${state.get('key')}] ${summary}`
+        }
+        
+        const clockId = await this.clockManager.in(this.projectId, summary)
         state.set('clockify.clock_id', clockId)
         configurationState.commit()
     }
