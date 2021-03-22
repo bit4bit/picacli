@@ -1,5 +1,9 @@
 import { Stater, StateKey, StateValue } from './mod.ts'
 
+/*
+ * State using layers, the last layer
+ * it's writable.
+ */
 export class StateOverlay implements Stater {
     private states: Stater[]
     private writeState: Stater

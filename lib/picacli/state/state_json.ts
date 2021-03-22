@@ -1,7 +1,7 @@
 
 import { Stater } from './mod.ts'
 
-export class JsonState {
+export class StateJson {
     private state: any = {}
     private path: string
     

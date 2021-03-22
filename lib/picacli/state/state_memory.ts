@@ -1,7 +1,7 @@
 import { Stater, StateKey, StateValue } from './mod.ts'
 
 export class StateMemory implements Stater {
-    private data: Map<string, string | number> = new Map()
+    private data: Map<string, StateValue> = new Map()
 
     set(key: StateKey, val: StateValue) {
         this.data.set(key, val)

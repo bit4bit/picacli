@@ -3,7 +3,7 @@
 import { path } from './deps.ts'
 
 import { Picacli } from './picacli/mod.ts'
-import { JsonState } from './picacli/state/json_state.ts'
+import { StateJson } from './picacli/state/state_json.ts'
 import { StateOverlay } from './picacli/state/state_overlay.ts'
 
 import { ProjectDirectoryResolve } from './picacli/path/mod.ts'
@@ -26,14 +26,14 @@ const projectPath = new ProjectDirectoryResolve()
 const projectRoot = projectPath.rootDirectory([PICACLI_CONFIGURATION, '.git'])
 
 // state of current project
-const state = new JsonState(path.join(projectRoot, '.picacli.state'))
+const state = new StateJson(path.join(projectRoot, '.picacli.state'))
 
 // configuration state of current project
-const projectConfigurationState = new JsonState(path.join(projectRoot, PICACLI_CONFIGURATION))
+const projectConfigurationState = new StateJson(path.join(projectRoot, PICACLI_CONFIGURATION))
 const userConfigurationStates = []
 if (homeUser) {
     userConfigurationStates.push(
-        new JsonState(path.join(homeUser, PICACLI_CONFIGURATION))
+        new StateJson(path.join(homeUser, PICACLI_CONFIGURATION))
     )
 }
 const configurationState = new StateOverlay(projectConfigurationState,
