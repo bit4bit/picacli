@@ -17,15 +17,17 @@ Este busca cumplir las tareas siguientes:
  sino para las nuevas integraciones de configuracion e infraestructura como codigo.
 
 
-## uso
-
-### compilar desde fuente
+## compilar desde fuente
 
 ~~~
 $ git clone https://github.com/bit4bit/picacli
 $ cd picacli
-$ deno compile --unstable main.ts
+$ deno compile --unstable -A main.ts
 ~~~
+
+## uso
+
+picacli usa variables de configuracion por directorio, se debe crear en la raiz del directorio proyecto el archivo **.picacli.json**.
 
 ### desde issue jira
 

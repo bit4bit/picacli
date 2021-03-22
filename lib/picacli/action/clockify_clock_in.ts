@@ -95,6 +95,17 @@ then register the value at *HOME/.picacli.json* or current project a *.picacli.j
     }
 
     async tcpFinish() {
+        console.log(`
+if you like use by default the current workspace,
+please add to **.picacli.json**:
+"clockify.workspace_id": "${this.workspaceId}"
+`)
+        
+        console.log(`
+if you like use by default the current project,
+please add to **.picacli.json**:
+"clockify.project_id": "${this.projectId}"
+`)
     }
 
     private async getProjectFromUserInput(workspaceId: string) {
